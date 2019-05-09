@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * A collection of methods for the third assignment of CS 1410.
  * 
- * @author Morgan Mischo
+ * @author Morgan Mischo & Joe Zachary
  */
 public class MethodLibrary
 {
@@ -148,18 +148,28 @@ public class MethodLibrary
      */
     public static double sumOfRoots (String numbers, int n)
     {
+        
         Scanner scn = new Scanner(numbers); 
-        while(scn.hasNext()) {
-            String token = scn.next();
-            double newToken = Double.parseDouble(numbers); 
-            if (newToken >= 0) {
-                double newRoot = Math.pow(newToken, n); 
-                double totalRoot = newRoot + newRoot; 
-                return totalRoot;
-            }
+        double sumRoot = 0.0; 
+        while (scn.hasNextDouble())
+        {
+            sumRoot = sumRoot + Math.pow(scn.nextDouble(), 1.0 / n); 
         }
-        return 0.0;
-            }
+        return sumRoot; 
+    }
+        
+//        Scanner scn = new Scanner(numbers); 
+//        while(scn.hasNext()) {
+//            String token = scn.next();
+//            double newToken = Double.parseDouble(numbers); 
+//            if (newToken >= 0) {
+//                double newRoot = Math.pow(newToken, n); 
+//                double totalRoot = newRoot + newRoot; 
+//                return totalRoot;
+//            }
+//        }
+//        return 0.0;
+//            }
 
     /**
      * Reports whether or not every character in source occurs at least once in target.
@@ -171,14 +181,15 @@ public class MethodLibrary
      */
     public static boolean containsAll (String source, String target)
     {
-        Scanner scn = new Scanner(source); 
-        int i = 0;
-        while (i <= source.length()){
-            if (scn.hasNext(source) == scn.hasNext(target)); {
-            return true; 
-            }
+        boolean value = true;
+        int i = 0; 
+        
+        while (i < source.length()){
+                value = value &&  target.indexOf(source.charAt(i)) >= 0; 
+                i++; 
         }
-        return false;
+        
+        return value;
     }
 
     /**
@@ -233,16 +244,16 @@ public class MethodLibrary
      */
     public static String makeRectangle (int height, int width)
     {
-        String makeLine;  
+        String value = "";
         int i = 0;
-        while (i  < height - 2) {
-            if (height >= 2) {
-            }
+        while (i  < height - 2) 
+        {
+            value += makeLine('|', ' ', width) + '\n'; 
             i++; 
         }
+        String top = makeLine('+', '-', width) + '\n'; 
         
-        
-        return "";
+        return top + value + top;
     }
 
     /**
@@ -284,25 +295,14 @@ public class MethodLibrary
      */
     public static String hailstones (int n)
     {
-        int myHailstone = 0; 
-        int endHailstone = 0;
-        String lastHailstone = null; 
-        int i = 0; 
+        String hail = ""; 
         
-        while (n > 0 && i < n) {
-            if (n > 1) {
-                myHailstone = nextHailstone(n); 
-                n = n - 1; 
-                lastHailstone = myHailstone + " "; 
-            }
-            else if (n == 1) {
-                endHailstone = 1; 
-                lastHailstone = endHailstone + " "; 
-            }
-            i++; 
+        while(n > 1)
+        {
+            hail = hail + n + ' '; 
+            n = nextHailstone(n); 
         }
-            return lastHailstone;  
-        
+        return hail + "1 ";  
     }
 
     /**
@@ -322,16 +322,14 @@ public class MethodLibrary
     {
         Scanner scn = new Scanner(s1); 
         Scanner scnr = new Scanner(s2); 
-        s1.replaceAll("\\s+", ""); 
-        s2.replaceAll("\\s+",  ""); 
-        int x = s1.length(); 
-        int y = s2.length(); 
-        
-        while (x == y) {
-            if (scn.hasNext(s1) == scnr.hasNext(s2)) {
-                return true; 
-            }
+        boolean value = true; 
+       
+        while(scn.hasNext() && scnr.hasNext())
+        {
+            String scnToken = scn.next(); 
+            String scnrToken = scnr.next(); 
+            value = value && scnToken.equals(scnrToken); 
         }
-        return false;
+        return value && !scn.hasNext() && !scnr.hasNext();
     }
 }
